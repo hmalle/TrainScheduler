@@ -10,7 +10,7 @@ $(document).ready( function(){
     messagingSenderId: "983277076514"
   };
   firebase.initializeApp(config);
-  
+ 
   var database = firebase.database();
 
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
@@ -20,10 +20,13 @@ $(document).ready( function(){
     var firstTime = childSnapshot.val().firstTime;
     var frequency = childSnapshot.val().frequency;
     // take a moment to reflect!
-//TODO    var nextArrival = time 
+    var difference = moment().diff(moment.unix(firstTime, "X"), "minutes");
+    var timePassed = difference % frequency;
+    var minutesAway = frequency-timePassed;
+    var nextArrival = moment().add(minutesAway,"minutes").format("hh:mm A");
     //display on the screen
     $("#tableBody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
-      frequency + "</td><td>" + "nextArrival" + "</td><td>" + "Minutes Away" + "</td></tr>");
+      frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
   }, function(errorObject){
     console.log("The read failed: "+ errorObject.code);
@@ -35,7 +38,7 @@ $(document).ready( function(){
     var name = $("#trainName").val().trim();
     var dest = $("#destination").val().trim();
     var freq = $("#frequency").val().trim();
-    var firstT = $("#firstTrainTime").val().trim();
+    var firstT = moment( $("#firstTrainTime").val().trim(), "hh:mm").format('X');
     //clear out the input space
     $("#trainName").val("");
     $("#destination").val("");
@@ -51,5 +54,5 @@ $(document).ready( function(){
     database.ref().push(newTrain);
     
   });
- 
+
 });
