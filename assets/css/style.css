@@ -1,2 +1,11 @@
 
-
+.jumbotron, .panel-heading{
+  background-color: #3fb0ac !important;
+  color: #fff !important;
+}
+.table{
+  background-color: #dddfd4 !important;
+}
+.btn{
+  background-color: #3fb0ac !important;
+}

@@ -19,6 +19,7 @@ $(document).ready( function(){
     var destination = childSnapshot.val().destination;
     var firstTime = childSnapshot.val().firstTime;
     var frequency = childSnapshot.val().frequency;
+    //console.log("First Time : "+firstTime);
     // take a moment to reflect!
     var difference = moment().diff(moment.unix(firstTime, "X"), "minutes");
     var timePassed = difference % frequency;
@@ -38,7 +39,7 @@ $(document).ready( function(){
     var name = $("#trainName").val().trim();
     var dest = $("#destination").val().trim();
     var freq = $("#frequency").val().trim();
-    var firstT = moment( $("#firstTrainTime").val().trim(), "hh:mm").format('X');
+    var firstT = moment( $("#firstTrainTime").val().trim(), "hh:mm").subtract(1,"days").format('X');
     //clear out the input space
     $("#trainName").val("");
     $("#destination").val("");
@@ -52,7 +53,6 @@ $(document).ready( function(){
     };
     
     database.ref().push(newTrain);
-    
   });
 
 });
